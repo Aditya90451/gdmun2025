@@ -72,19 +72,22 @@
                 display: none;
                 position: absolute;
                 top: 60px;
-                right: 10px;
+                right: 0;
                 background-color: #171717;
                 border: 1px solid rgba(255, 255, 255, 0.2);
                 border-radius: 5px;
-                width: 150px;
+                width: 100%;
                 flex-direction: column;
+                z-index: 1000;
             }
             .nav.show {
                 display: flex;
             }
             .nav a {
-                padding: 10px;
+                padding: 15px;
                 text-align: center;
+                display: block;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.1);
             }
         }
         
@@ -129,7 +132,7 @@
             padding: 2rem;
             text-align: center;
         }
-
+    
         /* Title Styling */
         .about-title {
             font-size: 2rem;
@@ -137,7 +140,7 @@
             text-shadow: 1px 0 10px #101010;
             margin-bottom: 0.5rem;
         }
-
+    
         /* Normal text styling */
         .tagline {
             max-width: 90%;
@@ -151,7 +154,7 @@
             padding: 1rem;
             border-top: 1px solid rgba(255, 255, 255, 0.1);
         }
-    </style>
+    </style>    
 </head>
 <body>
     <div class="header">
@@ -195,12 +198,22 @@
             const navMenu = document.getElementById("nav-menu");
             navMenu.classList.toggle("show");
         }
-        
+    
         function closeMenu() {
             const navMenu = document.getElementById("nav-menu");
             navMenu.classList.remove("show");
         }
-
+    
+        // Close menu when clicking outside
+        document.addEventListener("click", function (event) {
+            const navMenu = document.getElementById("nav-menu");
+            const menuIcon = document.querySelector(".menu-icon");
+    
+            if (!navMenu.contains(event.target) && !menuIcon.contains(event.target)) {
+                navMenu.classList.remove("show");
+            }
+        });
+    
         // Smooth Scroll Function
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function(e) {
@@ -214,6 +227,6 @@
                 }
             });
         });
-    </script>
+    </script>    
 </body>
 </html>
