@@ -134,7 +134,11 @@
             padding: 2rem;
             text-align: center;
         }
-    
+        #sphere-container {
+            width: 100%;
+            height: 50vh; /* Adjust height to fit below the launch screen container */
+            background-color: #000000;
+        }
         /* Title Styling */
         .about-title {
             font-size: 2rem;
@@ -183,6 +187,7 @@
     
     <!-- ABOUT SECTION WITH FIXED STYLING -->
     <div id="wrapper">
+        <div id="sphere-container"></div>
         <h2 class="about-title">What is GDMUN?</h2>
         <p class="tagline">At this point, do we even need to ask? Some of us have been here before, arguing, negotiating, surviving on caffeine and last minute research. 
 
@@ -194,8 +199,57 @@
     <footer>
         <p>Created by <a href="https://instagram.com/adityasinghthakur_0">Aditya Singh Thakur</a> | Hosted by GD Goenka, Jammu</p>
     </footer>
-    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script>
+        // Scene setup
+        const scene = new THREE.Scene();
+        const sphereContainer = document.getElementById('sphere-container');
+        const renderer = new THREE.WebGLRenderer({ antialias: true });
+        renderer.setSize(sphereContainer.clientWidth, sphereContainer.clientHeight);
+        renderer.setClearColor(0x000000);
+        sphereContainer.appendChild(renderer.domElement);
+
+        const camera = new THREE.PerspectiveCamera(75, sphereContainer.clientWidth / sphereContainer.clientHeight, 0.1, 1000);
+        camera.position.z = 10;
+
+        // Create evenly distributed dots on a sphere
+        const points = [];
+        const numPoints = 1000;
+        const radius = 4;
+
+        for (let i = 0; i < numPoints; i++) {
+            const theta = Math.acos(2 * Math.random() - 1);
+            const phi = 2 * Math.PI * Math.random();
+
+            const x = radius * Math.sin(theta) * Math.cos(phi);
+            const y = radius * Math.sin(theta) * Math.sin(phi);
+            const z = radius * Math.cos(theta);
+
+            points.push(new THREE.Vector3(x, y, z));
+        }
+
+        const geometry = new THREE.BufferGeometry().setFromPoints(points);
+        const material = new THREE.PointsMaterial({ color: 0xffffff, size: 0.05 });
+        const dotSphere = new THREE.Points(geometry, material);
+        scene.add(dotSphere);
+
+        function animate() {
+            requestAnimationFrame(animate);
+            dotSphere.rotation.y += 0.005;
+            dotSphere.rotation.x += 0.002;
+            renderer.render(scene, camera);
+        }
+
+        animate();
+
+        // Handle window resize and adjust aspect ratio
+        window.addEventListener('resize', () => {
+            const width = sphereContainer.clientWidth;
+            const height = sphereContainer.clientHeight;
+            renderer.setSize(width, height);
+            camera.aspect = width / height;
+            camera.updateProjectionMatrix();
+        });
         function toggleMenu() {
             const navMenu = document.getElementById("nav-menu");
             navMenu.classList.toggle("show");
