@@ -6,52 +6,99 @@
     <title>Credits - GDMUN'25</title>
     <link rel="icon" type="png" href="logo.png">
     <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Tinos:wght@400;700&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
-        body {
-            font-family: 'Rubik', sans-serif;
+        html {
             background-color: #000;
+            scroll-behavior: smooth;
+        }
+        body {
+            font-weight: 700;
             color: #e0e0e0;
-            text-align: center;
-            padding: 2rem;
+            line-height: 1.6;
+            font-family: 'Rubik', sans-serif;
         }
         .header {
             display: flex;
-            justify-content: space-between;
             align-items: center;
-            padding: 1rem;
+            justify-content: space-between;
             background-color: #171717;
+            padding: 1rem;
+            position: relative;
         }
         .logo {
             height: 50px;
         }
-        .credits-container {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 2rem;
-            background-color: #101010;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+        .menu-icon {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            cursor: pointer;
         }
-        .credits-title {
+        .menu-icon div {
+            width: 30px;
+            height: 4px;
+            background-color: #a8a8a8;
+        }
+        .nav {
+            display: flex;
+            gap: 15px;
+        }
+        .nav a {
+            color: #e0e0e0;
+            text-decoration: none;
+            font-size: 1rem;
+            cursor: pointer;
+        }
+        .nav a:hover {
+            color: #ecc55a;
+        }
+        @media (max-width: 768px) {
+            .menu-icon {
+                display: flex;
+            }
+            .nav {
+                display: none;
+                position: absolute;
+                top: 60px;
+                right: 0;
+                background-color: #171717;
+                border: 1px solid rgba(255, 255, 255, 0.2);
+                border-radius: 5px;
+                width: 100%;
+                flex-direction: column;
+                z-index: 1000;
+            }
+            .nav.show {
+                display: flex;
+            }
+            .nav a {
+                padding: 15px;
+                text-align: center;
+                display: block;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            }
+        }
+        .content {
+            text-align: center;
+            padding: 2rem;
+        }
+        .title {
             font-size: 2rem;
             color: #ecc55a;
             margin-bottom: 1rem;
         }
         .credits-list {
-            list-style: none;
-            padding: 0;
-        }
-        .credits-list li {
             font-size: 1.2rem;
-            margin: 10px 0;
+            color: #a8a8a8;
         }
         footer {
-            margin-top: 2rem;
+            text-align: center;
             padding: 1rem;
             border-top: 1px solid rgba(255, 255, 255, 0.1);
         }
@@ -60,21 +107,41 @@
 <body>
     <div class="header">
         <img src="logo.png" alt="GDMUN'25" class="logo">
+        <div class="menu-icon" onclick="toggleMenu()">
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+        <div class="nav" id="nav-menu">
+            <a href="index.html">Home</a>
+            <a href="team.html">Team</a>
+            <a href="committees.html">Committees</a>
+            <a href="registration.html">Registration</a>
+            <a href="contact.html">Contact Us</a>
+        </div>
+    </div>
+    <div class="content">
+        <h1 class="title">Credits</h1>
+        <p class="credits-list">Website Development: Aditya Singh Thakur</p>
+        <p class="credits-list">Hosted by: GD Goenka, Jammu</p>
     </div>
     
-    <div class="credits-container">
-        <h2 class="credits-title">Credits</h2>
-        <ul class="credits-list">
-            <li><strong>Website Development: </strong>Sannidhya Sharma, USG IT</li>
-            <li><strong>Website Designing: </strong>Aditya Singh Thakur, USG Delegate Affairs</li>
-            <li><strong>Graphics & Design: </strong>Vashisth Lakhnotra, Head of IT & Graphics</li>
-            <li><strong>Content & Coordination: </strong> GDMUN'25 Secretariat</li>
-            <li><strong>Hosted by: </strong> GD Goenka Public School Jammu</li>
-        </ul>
-    </div>
-    
-    <footer>
-        <p>Created by <a href="credits.html">Credits</a> | GDMUN'25</p>
-    </footer>
+    <script>
+        function toggleMenu() {
+            const navMenu = document.getElementById("nav-menu");
+            navMenu.classList.toggle("show");
+        }
+        function closeMenu() {
+            const navMenu = document.getElementById("nav-menu");
+            navMenu.classList.remove("show");
+        }
+        document.addEventListener("click", function (event) {
+            const navMenu = document.getElementById("nav-menu");
+            const menuIcon = document.querySelector(".menu-icon");
+            if (!navMenu.contains(event.target) && !menuIcon.contains(event.target)) {
+                navMenu.classList.remove("show");
+            }
+        });
+    </script>
 </body>
 </html>
